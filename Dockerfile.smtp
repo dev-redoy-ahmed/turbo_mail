@@ -1,0 +1,53 @@
+# Dockerfile for TurboMails SMTP Server (Haraka)
+FROM node:18-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Install system dependencies
+RUN apk add --no-cache \
+    python3 \
+    make \
+    g++ \
+    git \
+    openssl
+
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies
+RUN npm ci --only=production && npm cache clean --force
+
+# Copy Haraka configuration and startup files
+COPY haraka-server.js ./
+COPY start-haraka.js ./
+COPY haraka-config/ ./haraka-config/
+COPY .env* ./
+
+# Create logs directory
+RUN mkdir -p logs
+
+# Create SSL directory for certificates
+RUN mkdir -p ssl
+
+# Generate self-signed certificates for development
+RUN openssl req -x509 -newkey rsa:4096 -keyout ssl/key.pem -out ssl/cert.pem -days 365 -nodes \
+    -subj "/C=US/ST=State/L=City/O=TurboMails/OU=IT/CN=localhost"
+
+# Create non-root user
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S haraka -u 1001
+
+# Change ownership
+RUN chown -R haraka:nodejs /app
+USER haraka
+
+# Expose SMTP ports
+EXPOSE 25 587
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
+    CMD nc -z localhost 25 || exit 1
+
+# Start Haraka SMTP server
+CMD ["node", "start-haraka.js"]
