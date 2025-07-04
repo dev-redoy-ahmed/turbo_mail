@@ -3,11 +3,11 @@ const { simpleParser } = require('mailparser');
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
-require('dotenv').config();
 
-const SMTP_PORT = process.env.SMTP_PORT || 25;
-const SMTP_PORT_SUBMISSION = process.env.SMTP_PORT_SUBMISSION || 587;
-const API_URL = process.env.API_URL || 'http://localhost:5000';
+// Default configuration (no environment variables needed)
+const SMTP_PORT = 25;
+const SMTP_PORT_SUBMISSION = 587;
+const API_URL = 'http://206.189.158.244:5000';
 
 // Supported domains
 const SUPPORTED_DOMAINS = [

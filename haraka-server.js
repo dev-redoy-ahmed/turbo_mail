@@ -2,7 +2,6 @@ const Haraka = require('haraka');
 const path = require('path');
 const fs = require('fs');
 const axios = require('axios');
-require('dotenv').config();
 
 // Create Haraka configuration directory
 const configDir = path.join(__dirname, 'haraka-config');
@@ -91,7 +90,7 @@ exports.hook_data_post = function(next, connection) {
   const emailData = transaction.message_stream.get_data();
   
   // Forward to Express server
-  axios.post('http://localhost:5000/smtp/receive', emailData, {
+  axios.post('http://206.189.158.244:5000/smtp/receive', emailData, {
     headers: {
       'Content-Type': 'message/rfc822'
     },

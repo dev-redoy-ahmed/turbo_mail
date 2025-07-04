@@ -118,7 +118,6 @@ class TurboMailsDeployer {
       const api = spawn('node', ['server.js'], {
         stdio: ['ignore', 'pipe', 'pipe'],
         env: {
-          ...process.env,
           PORT: config.api.port,
           REDIS_URL: `redis://${config.redis.host}:${config.redis.port}`,
           NODE_ENV: 'production'
@@ -154,10 +153,9 @@ class TurboMailsDeployer {
       const smtp = spawn('node', ['smtp-server.js'], {
         stdio: ['ignore', 'pipe', 'pipe'],
         env: {
-          ...process.env,
           SMTP_PORT: config.smtp.port,
           SMTP_PORT_SUBMISSION: config.smtp.submissionPort,
-          API_URL: `http://localhost:${config.api.port}`
+          API_URL: `http://206.189.158.244:${config.api.port}`
         }
       });
 
@@ -190,9 +188,8 @@ class TurboMailsDeployer {
       const frontend = spawn('npm', ['run', 'dev'], {
         stdio: ['ignore', 'pipe', 'pipe'],
         env: {
-          ...process.env,
           PORT: config.frontend.port,
-          NEXT_PUBLIC_API_URL: `http://localhost:${config.api.port}`
+          NEXT_PUBLIC_API_URL: `http://206.189.158.244:${config.api.port}`
         }
       });
 

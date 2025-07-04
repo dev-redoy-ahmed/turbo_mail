@@ -9,7 +9,6 @@ const { v4: uuidv4 } = require('uuid');
 const moment = require('moment');
 const fs = require('fs');
 const path = require('path');
-require('dotenv').config();
 
 const app = express();
 const server = http.createServer(app);
@@ -20,8 +19,9 @@ const io = socketIo(server, {
   }
 });
 
-const PORT = process.env.PORT || 5000;
-const REDIS_URL = process.env.REDIS_URL || 'redis://localhost:6379';
+// Default configuration (no environment variables needed)
+const PORT = 5000;
+const REDIS_URL = 'redis://127.0.0.1:6379';
 
 // Redis client setup
 const redis = new Redis(REDIS_URL);

@@ -79,7 +79,7 @@ export default function Home() {
   }, [currentEmail])
 
   const setupSocket = () => {
-    const newSocket = io('http://localhost:5000')
+    const newSocket = io('http://206.189.158.244:5000')
     
     newSocket.on('connect', () => {
       console.log('Connected to server')

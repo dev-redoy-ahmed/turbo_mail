@@ -81,11 +81,11 @@ module.exports = {
       user: 'ubuntu',
       host: 'your-server-ip',
       ref: 'origin/main',
-      repo: 'https://github.com/yourusername/turbo-mails.git',
+      repo: 'https://github.com/dev-redoy-ahmed/turbo_mail.git',
       path: '/var/www/turbo-mails',
       'pre-deploy-local': '',
       'post-deploy': 'npm install --production && npm run build && pm2 reload ecosystem.config.js --env production',
-      'pre-setup': ''
+      'pre-setup': 'sudo apt update && sudo apt install -y redis-server && sudo systemctl enable redis-server && sudo systemctl start redis-server && redis-cli ping'
     }
   }
 };
